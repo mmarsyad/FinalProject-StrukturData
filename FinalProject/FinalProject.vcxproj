@@ -139,7 +139,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="alomem.cpp" />
+    <ClCompile Include="array.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="pointer.cpp" />
+    <ClCompile Include="searching.cpp" />
+    <ClCompile Include="sorting.cpp" />
+    <ClCompile Include="stack.cpp" />
+    <ClCompile Include="struct.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="array.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
