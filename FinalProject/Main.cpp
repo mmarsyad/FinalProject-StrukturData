@@ -13,8 +13,9 @@ struct mahasiswa {
 };
 
 struct Tumpukan {
-	int atas;
+	int atas = -1;
 	mahasiswa data[max];
+	int urutAtas = -1;
 }tumpuk;
 
 void awal() {
@@ -69,8 +70,47 @@ void hapus() {
 	}
 }
 
+void tampilUrut() {
+	if (!kosong()) {
+		mahasiswa arr[10];
+		int size = -1;
+		int pos;
+		cout << "Ini nilai tumpuk atas " << tumpuk.atas << endl;
+		for (int i = tumpuk.atas;i >= 0; i--) {
+			pos = i;
+			for (int j = i - 1;j <= tumpuk.atas;j++) {
+				if (tumpuk.data[j].ipk > tumpuk.data[pos].ipk) {
+					pos = j;
+					//cout << "Putar ditemukan " << j << "kali";
+				}
+				//cout << "Putar diluar " << j << "kali";
+			}
+			cout << "ini size :" << size << endl;
+			size++;
+			arr[size] = tumpuk.data[pos];
+			
+		}
+		cout << "=============================" << endl;
+		cout << "= NO.\tNIM\tNAMA\tIPK =" << endl;
+		cout << "=============================" << endl;
+		int k = 1;
+		for (int i = tumpuk.atas;i >= 0;i--) {
+			cout << k << ". \t" << arr[i].nim;
+			cout << "\t" << arr[i].nama;
+			cout << "\t" << arr[i].ipk;
+			cout << endl;
+			k++;
+			cout << "Perulangan ke " << i << endl;
+		}
+	}
+	else {
+		cout << "Data Mahasiswa masih kosong";
+	}
+}
+
 void tampil() {
 	if (!kosong()) {
+
 		cout << "=============================" << endl;
 		cout << "= NO.\tNIM\tNAMA\tIPK =" << endl;
 		cout << "=============================" << endl;
@@ -128,7 +168,7 @@ void cariNama(string nama) {
 
 int main() {
 	awal();
-	menu:
+menu:
 	system("cls");
 	string pilihan;
 	cout << "==========================================================================" << endl;
@@ -164,8 +204,8 @@ int main() {
 		goto menu;
 	}
 	else if (pilihan == "3") {
-		tampil();
-		cout << "\nTekan Enter untuk kembali . . .";
+		tampilUrut();
+		cout << "\nTekan Enter untuk kembali . . ." << endl;
 		_getch();
 		goto menu;
 
