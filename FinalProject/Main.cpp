@@ -1,29 +1,20 @@
 #include <iostream>
-#include <string.h>
 #include <conio.h>
 #include <Windows.h> // untuk menggunakan fungsi Sleep()
-#define max 10
+#include <deque>
 
 using namespace std;
 
 struct mahasiswa {
-	int nim;
+	string nim;
 	string nama;
 	float ipk;
 };
 
-struct Tumpukan {
-	int atas = -1;
-	mahasiswa data[max];
-	int urutAtas = -1;
-}tumpuk;
-
-void awal() {
-	tumpuk.atas = -1;
-}
+deque<mahasiswa> mhs;
 
 bool kosong() {
-	if (tumpuk.atas == -1) {
+	if (mhs.empty()) {
 		return true;
 	}
 	else {
@@ -31,38 +22,33 @@ bool kosong() {
 	}
 }
 
-bool penuh() {
-	if (tumpuk.atas == max - 1) {
-		return true;
+bool cekNim(string nim) {
+	bool status = false;
+	for (int i = 0;i < mhs.size(); i++) {
+		if (mhs[i].nim == nim) {
+			return status = true;
+		}
 	}
-	else {
-		return false;
-	}
+	return status;
 }
 
-void input(int nim, string nama, float ipk) {
-	if (kosong()) {
-		tumpuk.atas++;
-		tumpuk.data[tumpuk.atas].nim = nim;
-		tumpuk.data[tumpuk.atas].nama = nama;
-		tumpuk.data[tumpuk.atas].ipk = ipk;
-		cout << "Data dengan NIM " << tumpuk.data[tumpuk.atas].nim << " Masuk ke Stack ";
+void input(string nim, string nama, float ipk) {
+	string* ptrNim = &nim;
+	string* ptrNama = &nama;
+	float* ptrIpk = &ipk;
+	if (cekNim(nim)) {
+		cout << "NIM sudah ada !" << endl;
 	}
-	else if (!penuh()) {
-		tumpuk.atas++;
-		tumpuk.data[tumpuk.atas].nim = nim;
-		tumpuk.data[tumpuk.atas].nama = nama;
-		tumpuk.data[tumpuk.atas].ipk = ipk;
-		cout << "Data dengan NIM " << tumpuk.data[tumpuk.atas].nim << " Masuk ke Stack";
+	else if (!cekNim(nim)) {
+		mhs.push_front({ *ptrNim,*ptrNama,*ptrIpk });
 	}
-	else {
-		cout << "Tumpukkan penuh !";
-	}
+	
+	
 }
 
 void hapus() {
 	if (!kosong()) {
-		tumpuk.atas--;
+		mhs.pop_front();
 		cout << "Data inputan terakhir sudah di hapus";
 	}
 	else {
@@ -72,55 +58,24 @@ void hapus() {
 
 void tampilUrut() {
 	if (!kosong()) {
-		mahasiswa arr[10];
-		int size = -1;
-		int pos;
-		cout << "Ini nilai tumpuk atas " << tumpuk.atas << endl;
-		for (int i = tumpuk.atas;i >= 0; i--) {
-			pos = i;
-			for (int j = i - 1;j <= tumpuk.atas;j++) {
-				if (tumpuk.data[j].ipk > tumpuk.data[pos].ipk) {
-					pos = j;
-					//cout << "Putar ditemukan " << j << "kali";
+		for (int i = 0; i < mhs.size(); i++) {
+			for (int j = 0; j < mhs.size() - i - 1; j++) {
+				if (mhs[j].ipk < mhs[j + 1].ipk) {
+					mahasiswa min = mhs[j];
+					mhs[j] = mhs[j + 1];
+					mhs[j + 1] = min;
 				}
-				//cout << "Putar diluar " << j << "kali";
 			}
-			cout << "ini size :" << size << endl;
-			size++;
-			arr[size] = tumpuk.data[pos];
-			
 		}
+		cout << mhs.size() << endl;
 		cout << "=============================" << endl;
 		cout << "= NO.\tNIM\tNAMA\tIPK =" << endl;
 		cout << "=============================" << endl;
-		int k = 1;
-		for (int i = tumpuk.atas;i >= 0;i--) {
-			cout << k << ". \t" << arr[i].nim;
-			cout << "\t" << arr[i].nama;
-			cout << "\t" << arr[i].ipk;
+		for (int i = 0;i < mhs.size();i++) {
+			cout << i + 1 << ". \t" << mhs[i].nim;
+			cout << "\t" << mhs[i].nama;
+			cout << "\t" << mhs[i].ipk;
 			cout << endl;
-			k++;
-			cout << "Perulangan ke " << i << endl;
-		}
-	}
-	else {
-		cout << "Data Mahasiswa masih kosong";
-	}
-}
-
-void tampil() {
-	if (!kosong()) {
-
-		cout << "=============================" << endl;
-		cout << "= NO.\tNIM\tNAMA\tIPK =" << endl;
-		cout << "=============================" << endl;
-		int j = 1;
-		for (int i = tumpuk.atas;i >= 0;i--) {
-			cout << j << ". \t" << tumpuk.data[i].nim;
-			cout << "\t" << tumpuk.data[i].nama;
-			cout << "\t" << tumpuk.data[i].ipk;
-			cout << endl;
-			j++;
 		}
 	}
 	else {
@@ -129,36 +84,33 @@ void tampil() {
 }
 
 void bersih() {
-	tumpuk.atas = -1;
+	mhs.clear();
 	cout << "Berhasil. Data sudah kosong !";
 }
 
-int cariNim(int nim) {
+int cariNim(string nim) {
 	int posisi = -1;
 
-	for (int i = tumpuk.atas;i >= 0; i--) {
-		if (tumpuk.data[i].nim == nim) {
+	for (int i = 0;i < mhs.size(); i++) {
+		if (mhs[i].nim == nim) {
 			return posisi = i;
 		}
 		else if (posisi != -1) {
 			return posisi;
 		}
 	}
-
-	/*while (i >= 0 && tumpuk.data[i].nim != nim) {
-		i--;
-	}*/
 }
 
 void tampilCari(int i) {
 	if ( i == -1) {
 		cout << "Maaf data yang anda cari tidak ditemukan";
 	}
-	else {		
-		cout << "NIM\t: " << tumpuk.data[i].nim << endl;
-		cout << "Nama\t: " << tumpuk.data[i].nama << endl;
-		cout << "IPK\t: " << tumpuk.data[i].ipk << endl;
-		cout << "Data yang anda cari ditemukan !";
+	else {	
+		cout << endl;
+		cout << "NIM\t: " << mhs[i].nim << endl;
+		cout << "Nama\t: " << mhs[i].nama << endl;
+		cout << "IPK\t: " << mhs[i].ipk << endl;
+		cout << "Data yang anda cari ditemukan !" << endl;
 	}
 }
 
@@ -167,20 +119,19 @@ void cariNama(string nama) {
 }
 
 int main() {
-	awal();
 menu:
 	system("cls");
 	string pilihan;
 	cout << "==========================================================================" << endl;
 	cout << "=                   Sistem Penginputan Nilai Mahasiswa                   =" << endl;
 	cout << "==========================================================================" << endl;
-	cout << "1. Input Nilai Mahasiswa\n2. Cari Mahasiswa berdasarkan NIM\n3. List Mahasiswa berdasarkan IPK tertinggi\n4. Hapus data terakhir\n5. Bersihkan data Mahasiswa\n6. Keluar" << endl;
+	cout << "1. Input Nilai Mahasiswa\n2. Cari Mahasiswa berdasarkan NIM\n3. List Mahasiswa berdasarkan IPK tertinggi\n4. Hapus data Tertinggi\n5. Bersihkan data Mahasiswa\n6. Keluar" << endl;
 	cout << "Masukkan pilihan anda : ";
 	cin >> pilihan;
 
 	if (pilihan == "1") {
 		system("cls");
-		int nim;
+		string nim;
 		string nama;
 		float ipk;
 		cout << "Masukkan Nomor Induk Mahasiswa : ";
@@ -194,7 +145,7 @@ menu:
 		goto menu;
 	}
 	else if (pilihan == "2") {
-		int carnim;
+		string carnim;
 		cout << "Masukkan NIM yang ingin dicari : ";
 		cin >> carnim;
 		int ix = cariNim(carnim);
