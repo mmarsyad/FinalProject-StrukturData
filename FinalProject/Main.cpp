@@ -95,10 +95,9 @@ int cariNim(string nim) {
 		if (mhs[i].nim == nim) {
 			return posisi = i;
 		}
-		else if (posisi != -1) {
-			return posisi;
-		}
 	}
+
+	return posisi;
 }
 
 void tampilCari(int i) {
@@ -125,7 +124,7 @@ menu:
 	cout << "==========================================================================" << endl;
 	cout << "=                   Sistem Penginputan Nilai Mahasiswa                   =" << endl;
 	cout << "==========================================================================" << endl;
-	cout << "1. Input Nilai Mahasiswa\n2. Cari Mahasiswa berdasarkan NIM\n3. List Mahasiswa berdasarkan IPK tertinggi\n4. Hapus data Tertinggi\n5. Bersihkan data Mahasiswa\n6. Keluar" << endl;
+	cout << "1. Input Nilai Mahasiswa\n2. Cari Mahasiswa berdasarkan NIM\n3. List Mahasiswa berdasarkan IPK tertinggi\n4. Hapus data dengan IPK Tertinggi\n5. Bersihkan data Mahasiswa\n6. Keluar" << endl;
 	cout << "Masukkan pilihan anda : ";
 	cin >> pilihan;
 
