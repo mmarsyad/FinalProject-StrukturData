@@ -22,6 +22,16 @@ bool kosong() {
 	}
 }
 
+void hapus() {
+	if (!kosong()) {
+		mhs.pop_front();
+		cout << "Data inputan terakhir sudah di hapus";
+	}
+	else {
+		cout << "Data kosong, Silahkan tambahkan data terlebih dahulu.";
+	}
+}
+
 bool cekNim(string nim) {
 	bool status = false;
 	for (int i = 0;i < mhs.size(); i++) {
@@ -46,16 +56,6 @@ void input(string nim, string nama, float ipk) {
 	
 }
 
-void hapus() {
-	if (!kosong()) {
-		mhs.pop_front();
-		cout << "Data inputan terakhir sudah di hapus";
-	}
-	else {
-		cout << "Data kosong, Silahkan tambahkan data terlebih dahulu.";
-	}
-}
-
 void tampilUrut() {
 	if (!kosong()) {
 		for (int i = 0; i < mhs.size(); i++) {
@@ -67,7 +67,6 @@ void tampilUrut() {
 				}
 			}
 		}
-		cout << mhs.size() << endl;
 		cout << "=============================" << endl;
 		cout << "= NO.\tNIM\tNAMA\tIPK =" << endl;
 		cout << "=============================" << endl;
@@ -111,10 +110,6 @@ void tampilCari(int i) {
 		cout << "IPK\t: " << mhs[i].ipk << endl;
 		cout << "Data yang anda cari ditemukan !" << endl;
 	}
-}
-
-void cariNama(string nama) {
-
 }
 
 int main() {
